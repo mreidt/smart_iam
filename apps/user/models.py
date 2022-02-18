@@ -5,7 +5,6 @@ from django.db import models
 
 from apps.account.models import IAMAccount
 from apps.permissions.models import Permissions
-from apps.products.models import Products
 from apps.user.managers import CustomUserManager
 
 
@@ -33,15 +32,6 @@ class CustomUser(AbstractUser):
 class UserAccount(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     account = models.ForeignKey(IAMAccount, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True)
-    is_deleted = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_modified = models.DateTimeField(auto_now=True)
-
-
-class UserProducts(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
