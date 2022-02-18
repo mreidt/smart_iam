@@ -15,6 +15,7 @@ help: ## show this help
 	@echo '- make stop'
 	@echo '- make restart'
 	@echo '- make lint'
+	@echo '- make test [unit | integration]'
 	@echo '- make migrate'
 	@echo '- make migrations'
 	@echo '- make collectstatic'
@@ -61,6 +62,18 @@ restart: ## restart the application
 .PHONY: lint
 lint: ## runs linters over the code
 	@ $(EXEC) /bin/sh -c "isort . && black . && flake8 . && bandit -r . -c .bandit-config.yml"
+
+.PHONY: test
+test: ## runs tests
+ifeq ($(ARGS), unit)
+	# @ $(EXEC) coverage run --rcfile=.coveragerc_unit manage.py test
+	@ $(EXEC) python manage.py test
+	@ make coverage
+else ifeq ($(ARGS), integration)
+	# @ $(EXEC) coverage run --rcfile=.coveragerc_integration manage.py behave --no-capture
+	@ make coverage
+endif
+
 
 .PHONY: audit
 audit: run ## run package auditor
