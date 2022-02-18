@@ -3,8 +3,8 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from apps.user.managers import CustomUserManager
 from apps.account.models import IAMAccount
+from apps.user.managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
