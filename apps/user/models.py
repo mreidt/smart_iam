@@ -1,6 +1,4 @@
-import uuid
-
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
 from apps.account.models import IAMAccount
@@ -8,16 +6,15 @@ from apps.permissions.models import Permissions
 from apps.user.managers import CustomUserManager
 
 
-class CustomUser(AbstractUser):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
-    staff = models.BooleanField(default=False)
-    superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
