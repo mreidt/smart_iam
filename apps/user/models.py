@@ -4,6 +4,7 @@ from django.db import models
 from apps.account.models import IAMAccount
 from apps.permissions.models import Permissions
 from apps.user.managers import CustomUserManager
+from django.contrib.auth.models import PermissionsMixin
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
