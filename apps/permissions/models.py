@@ -12,5 +12,8 @@ class Permissions(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name_plural = "Permissions"
+
     def __str__(self) -> str:
         return f"{self.name}/{self.product.name}"
