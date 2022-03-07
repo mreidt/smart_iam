@@ -26,10 +26,13 @@ def then_step_get_created_product_data_response(context):
         "id": context.id,
         "name": "test_product",
         "is_active": True,
+        "is_deleted": False,
+        "description": None,
     }
     context.test.assertEqual(response_data, expected_response_data)
 
 
+@given("I have product data without required fields to update an instance")
 @given("I have product data without required fields to create an instance")
 def step_given_product_data_without_required_fields(context):
     context.request_data = {}
@@ -43,3 +46,59 @@ def step_given_product_has_required_fields(context):
 @then("No product must be created in database")
 def step_then_no_product_must_be_created(context):
     context.test.assertFalse(Products.objects.all().exists())
+
+
+@given('I have valid product data to partial update an instance')
+def step_given_have_valid_product_data_to_partial_update_instance(context):
+    context.request_data = {
+        "name": "updated product",
+        "is_active": False
+    }
+
+
+@given('I have a product with id "{id}"')
+def step_given_have_product_with_id(context, id):
+    product = Products()
+    product.name = "update this product"
+    product.id = int(id)
+    product.save()
+    context.product = product
+
+
+@then('I should have the product upated with provided data in database')
+def step_then_should_have_product_updated_in_database(context):
+    product = Products.objects.all().first()
+    context.test.assertEqual(product.name, context.request_data.get("name"))
+    context.test.assertEqual(product.is_active, context.request_data.get("is_active"))
+
+
+@then(u'The product should not be updated in database')
+def step_then_product_should_not_updated_database(context):
+    product = Products.objects.all().first()
+    context.test.assertEqual(context.product, product)
+
+
+@given('I have valid product data to update an instance')
+def step_given_have_valid_product_data_to_update_instance(context):
+    context.request_data = {
+        "name": "updated product",
+        "is_active": False,
+        "is_deleted": False,
+        "description": "some text",
+    }
+
+
+@given("The product is inactive")
+def step_given_product_is_inactive(context):
+    context.product.is_active = False
+    context.product.save()
+
+
+@then('I do not have a product with id "{id}"')
+def step_then_do_not_exist_product_with_id(context, id):
+    context.test.assertFalse(Products.objects.filter(id=int(id)).exists())
+
+
+@then('The product with id "{id}" should exists')
+def step_then_product_with_id_should_exists(context, id):
+    context.test.assertTrue(Products.objects.filter(id=int(id)).exists())

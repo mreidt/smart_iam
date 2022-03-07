@@ -30,3 +30,35 @@ def then_step_error_with_required_fields_messages(context):
 def step_then_should_get_unauthorized_error(context):
     expected_message = {"detail": "Authentication credentials were not provided."}
     context.test.assertEqual(context.response.json(), expected_message)
+
+
+@then('I should get the partial updated product data in the response')
+def step_then_should_get_partial_updated_data_in_response(context):
+    expected_response_data = {
+        **context.request_data,
+        "is_deleted": False,
+        "id": int(context.product.id),
+        "description": None,
+    }
+    response_data = context.response.json()
+    response_data.pop("created_at")
+    response_data.pop("last_modified")
+    context.test.assertDictEqual(response_data, expected_response_data)
+
+
+@then('I should get the updated product data in the response')
+def step_then_should_get_updated_data_in_response(context):
+    expected_response_data = {
+        **context.request_data,
+        "id": int(context.product.id),
+    }
+    response_data = context.response.json()
+    response_data.pop("created_at")
+    response_data.pop("last_modified")
+    context.test.assertDictEqual(response_data, expected_response_data)
+
+
+@then('I should get a "{expected_message}" message')
+def step_then_should_get_message(context, expected_message):
+    expected_message = {"detail": expected_message}
+    context.test.assertEqual(context.response.json(), expected_message)
