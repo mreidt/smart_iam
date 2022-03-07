@@ -6,6 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.products.models import Products
 from apps.products.repositories import products_repository
 from apps.products.serializers import ProductCreateSerializer, ProductSerializer
+from apps.products.handlers import products_handler
 
 
 class ProductViewSet(GenericViewSet):
@@ -39,3 +40,7 @@ class ProductViewSet(GenericViewSet):
 
     def partial_update(self, request, id):
         return self.update(request, id, partial=True)
+
+    def destroy(self, request, id):
+        products_handler.delete_product(id)
+        return Response(status=status.HTTP_204_NO_CONTENT)
