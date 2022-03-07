@@ -35,11 +35,11 @@ def step_given_product_data_without_required_fields(context):
     context.request_data = {}
 
 
-@given('Product has required fields')
+@given("Product has required fields")
 def step_given_product_has_required_fields(context):
     context.required_fields = ["name"]
 
 
-@then('No product must be created in database')
+@then("No product must be created in database")
 def step_then_no_product_must_be_created(context):
     context.test.assertFalse(Products.objects.all().exists())

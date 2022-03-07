@@ -26,7 +26,7 @@ def then_step_error_with_required_fields_messages(context):
     context.test.assertDictEqual(response_data, expected_response_data)
 
 
-@then('I should get an unauthorized error')
+@then("I should get an unauthorized error")
 def step_then_should_get_unauthorized_error(context):
     expected_message = {"detail": "Authentication credentials were not provided."}
     context.test.assertEqual(context.response.json(), expected_message)
