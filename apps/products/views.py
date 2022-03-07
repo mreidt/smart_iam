@@ -3,10 +3,10 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from apps.products.handlers import products_handler
 from apps.products.models import Products
 from apps.products.repositories import products_repository
 from apps.products.serializers import ProductCreateSerializer, ProductSerializer
-from apps.products.handlers import products_handler
 
 
 class ProductViewSet(GenericViewSet):

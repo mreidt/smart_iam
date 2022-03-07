@@ -32,7 +32,7 @@ def step_then_should_get_unauthorized_error(context):
     context.test.assertEqual(context.response.json(), expected_message)
 
 
-@then('I should get the partial updated product data in the response')
+@then("I should get the partial updated product data in the response")
 def step_then_should_get_partial_updated_data_in_response(context):
     expected_response_data = {
         **context.request_data,
@@ -46,7 +46,7 @@ def step_then_should_get_partial_updated_data_in_response(context):
     context.test.assertDictEqual(response_data, expected_response_data)
 
 
-@then('I should get the updated product data in the response')
+@then("I should get the updated product data in the response")
 def step_then_should_get_updated_data_in_response(context):
     expected_response_data = {
         **context.request_data,

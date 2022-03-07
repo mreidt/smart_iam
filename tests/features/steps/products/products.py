@@ -48,12 +48,9 @@ def step_then_no_product_must_be_created(context):
     context.test.assertFalse(Products.objects.all().exists())
 
 
-@given('I have valid product data to partial update an instance')
+@given("I have valid product data to partial update an instance")
 def step_given_have_valid_product_data_to_partial_update_instance(context):
-    context.request_data = {
-        "name": "updated product",
-        "is_active": False
-    }
+    context.request_data = {"name": "updated product", "is_active": False}
 
 
 @given('I have a product with id "{id}"')
@@ -65,20 +62,20 @@ def step_given_have_product_with_id(context, id):
     context.product = product
 
 
-@then('I should have the product upated with provided data in database')
+@then("I should have the product upated with provided data in database")
 def step_then_should_have_product_updated_in_database(context):
     product = Products.objects.all().first()
     context.test.assertEqual(product.name, context.request_data.get("name"))
     context.test.assertEqual(product.is_active, context.request_data.get("is_active"))
 
 
-@then(u'The product should not be updated in database')
+@then("The product should not be updated in database")
 def step_then_product_should_not_updated_database(context):
     product = Products.objects.all().first()
     context.test.assertEqual(context.product, product)
 
 
-@given('I have valid product data to update an instance')
+@given("I have valid product data to update an instance")
 def step_given_have_valid_product_data_to_update_instance(context):
     context.request_data = {
         "name": "updated product",

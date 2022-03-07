@@ -1,4 +1,5 @@
 from rest_framework import exceptions
+
 from apps.products.repositories import products_repository
 
 
@@ -8,7 +9,7 @@ class ProductsHandlers(object):
 
         if product.is_active:
             raise exceptions.PermissionDenied("Cannot delete active product.")
-        
+
         products_repository.delete(product)
 
 
