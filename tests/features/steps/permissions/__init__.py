@@ -1,1 +1,1 @@
-from .permissions import * # noqa
+from .permissions import *  # noqa

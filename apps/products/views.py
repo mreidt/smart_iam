@@ -26,7 +26,7 @@ class ProductViewSet(GenericViewSet):
             return Response(status=status.HTTP_201_CREATED, data=serializer.data)
         return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
 
-    def update(self, request, id: int, partial: bool=False):
+    def update(self, request, id: int, partial: bool = False):
         product = products_repository.get_product_by_id(id=id)
         serializer = self.serializer_class(
             instance=product,

@@ -4,7 +4,7 @@ from apps.permissions.models import Permissions
 from apps.products.models import Products
 
 
-@given('I have valid permission data to create an instance')
+@given("I have valid permission data to create an instance")
 def step_given_valid_permission_data_to_create_instance(context):
     context.request_data = {
         "name": "test_permission",
@@ -13,7 +13,7 @@ def step_given_valid_permission_data_to_create_instance(context):
     }
 
 
-@then(u'I should get the created permission data in the response')
+@then("I should get the created permission data in the response")
 def step_then_get_created_permission_data_response(context):
     response_data = context.response.json()
     response_data.pop("created_at")
@@ -30,7 +30,7 @@ def step_then_get_created_permission_data_response(context):
     context.test.assertEqual(response_data, expected_response_data)
 
 
-@then(u'I should have the new permission created with provided data in database')
+@then("I should have the new permission created with provided data in database")
 def then_step_validate_created_permission(context):
     permission_data = context.response.json()
     product_id = permission_data.pop("product")
@@ -57,7 +57,7 @@ def step_then_no_permission_must_be_created(context):
     context.test.assertFalse(Permissions.objects.all().exists())
 
 
-@given(u'I have valid permission data to partial update an instance')
+@given("I have valid permission data to partial update an instance")
 def step_given_have_valid_permission_data_partial_update(context):
     context.request_data = {
         "name": "test_permission_partial_update",
@@ -65,7 +65,7 @@ def step_given_have_valid_permission_data_partial_update(context):
     }
 
 
-@given(u'I have a permission with id "{id}"')
+@given('I have a permission with id "{id}"')
 def step_given_have_permission_with_id(context, id):
     context.product = Products.objects.create(name="product_123")
     permission = Permissions()
@@ -77,7 +77,7 @@ def step_given_have_permission_with_id(context, id):
     context.permission = permission
 
 
-@then(u'I should get the partial updated permission data in the response')
+@then("I should get the partial updated permission data in the response")
 def step_then_should_get_partial_updated_permission_in_response(context):
     response_data = context.response.json()
     response_data.pop("created_at")
@@ -94,30 +94,38 @@ def step_then_should_get_partial_updated_permission_in_response(context):
     context.test.assertEqual(response_data, expected_response_data)
 
 
-@then(u'I should have the permission partially upated with provided data in database')
+@then("I should have the permission partially upated with provided data in database")
 def step_then_should_have_permission_partially_updated_in_database(context):
     permission = Permissions.objects.all().first()
     context.test.assertEqual(permission.name, context.request_data.get("name"))
-    context.test.assertEqual(permission.description, context.request_data.get("description"))
+    context.test.assertEqual(
+        permission.description, context.request_data.get("description")
+    )
 
 
-@then(u'I should have the permission upated with provided data in database')
+@then("I should have the permission upated with provided data in database")
 def step_then_should_have_permission_updated_in_database(context):
     permission = Permissions.objects.all().first()
     context.test.assertEqual(permission.name, context.request_data.get("name"))
     context.test.assertEqual(permission.product.id, context.request_data.get("product"))
-    context.test.assertEqual(permission.description, context.request_data.get("description"))
-    context.test.assertEqual(permission.is_active, context.request_data.get("is_active"))
-    context.test.assertEqual(permission.is_deleted, context.request_data.get("is_deleted"))
+    context.test.assertEqual(
+        permission.description, context.request_data.get("description")
+    )
+    context.test.assertEqual(
+        permission.is_active, context.request_data.get("is_active")
+    )
+    context.test.assertEqual(
+        permission.is_deleted, context.request_data.get("is_deleted")
+    )
 
 
-@then(u'The permission should not be updated in database')
+@then("The permission should not be updated in database")
 def step_then_permission_should_not_be_updated_database(context):
     permission = Permissions.objects.all().first()
     context.test.assertEqual(context.permission, permission)
 
 
-@given(u'I have valid permission data to update an instance')
+@given("I have valid permission data to update an instance")
 def step_given_have_valid_permission_data_update_instance(context):
     context.product = Products.objects.create(name="new_product")
     context.request_data = {
@@ -129,7 +137,7 @@ def step_given_have_valid_permission_data_update_instance(context):
     }
 
 
-@then(u'I should get the updated permission data in the response')
+@then("I should get the updated permission data in the response")
 def step_then_should_get_updated_permission_data_in_response(context):
     response_data = context.response.json()
     response_data.pop("created_at")
@@ -146,33 +154,33 @@ def step_then_should_get_updated_permission_data_in_response(context):
     context.test.assertEqual(response_data, expected_response_data)
 
 
-@given(u'The permission is inactive')
+@given("The permission is inactive")
 def step_given_permission_is_inactive(context):
     context.permission.is_active = False
     context.permission.save()
 
 
-@then(u'I do not have a permission with id "{id}"')
+@then('I do not have a permission with id "{id}"')
 def step_dont_have_permission_with_id(context, id):
     context.test.assertFalse(Permissions.objects.filter(id=id).exists())
 
 
-@then(u'The permission with id "{id}" should exists')
+@then('The permission with id "{id}" should exists')
 def step_permission_with_id_should_exists(context, id):
     context.test.assertTrue(Permissions.objects.filter(id=id).exists())
 
 
-@given(u'I have some permissions')
+@given("I have some permissions")
 def step_have_some_permissions(context):
     product = Products.objects.create(name="product_1")
-    for permission in range (5):
+    for permission in range(5):
         name = f"permission_{permission}"
         description = f"description_{permission}"
         Permissions.objects.create(name=name, description=description, product=product)
     context.list_of_permissions = list(Permissions.objects.values())
 
 
-@then(u'I should get the list of permissions in the response')
+@then("I should get the list of permissions in the response")
 def step_should_get_list_permissions_response(context):
     response_data = context.response.json()
     expected_data = context.list_of_permissions

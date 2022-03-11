@@ -6,11 +6,11 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('permissions', '0003_permissionscreateserializer'),
+        ("permissions", "0003_permissionscreateserializer"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='PermissionsCreateSerializer',
+            name="PermissionsCreateSerializer",
         ),
     ]

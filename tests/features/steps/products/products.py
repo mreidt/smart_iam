@@ -101,14 +101,14 @@ def step_then_product_with_id_should_exists(context, id):
     context.test.assertTrue(Products.objects.filter(id=int(id)).exists())
 
 
-@given(u'I have some products')
+@given("I have some products")
 def step_have_some_products(context):
-    for product in range (5):
+    for product in range(5):
         Products.objects.create(name=f"product_{product}")
     context.list_of_products = list(Products.objects.values())
 
 
-@then(u'I should get the list of products in the response')
+@then("I should get the list of products in the response")
 def step_should_get_list_products_response(context):
     response_data = context.response.json()
     expected_data = context.list_of_products
