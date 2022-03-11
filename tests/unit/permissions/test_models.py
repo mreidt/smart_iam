@@ -15,7 +15,7 @@ class TestCustomUserModel(TestCase):
     def test_str(self):
         self.assertEqual(
             str(self.permission),
-            f"{self.permission.name}/{self.permission.product.name}",
+            f"{self.permission.product.name}/{self.permission.name}",
         )
 
     def test_create_permission(self):
