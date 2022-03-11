@@ -16,7 +16,7 @@ class PermissionsViewSet(GenericViewSet):
     permission_classes = [IsAdminUser]
     queryset = Permissions.objects.filter(is_active=True)
     serializer_class = PermissionsSerializer
-    looku_field = "id"
+    lookup_field = "id"
 
     def list(self, request):
         serializer = self.serializer_class(self.queryset, many=True)
