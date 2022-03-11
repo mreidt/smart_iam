@@ -71,6 +71,9 @@ ifeq ($(ARGS), unit)
 else ifeq ($(ARGS), integration)
 	@ $(EXEC) coverage run --rcfile=.coveragerc_integration manage.py behave --no-capture
 	@ make coverage
+else
+	make test integration
+	make test unit
 endif
 
 
