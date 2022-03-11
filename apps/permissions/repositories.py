@@ -6,6 +6,7 @@ class PermissionsRepository:
 
     def get_permission_by_id(self, id: int) -> models.Permissions:
         return self.model.objects.get(id=id)
+    
     def delete(self, permission: models.Permissions) -> None:
         permission.delete()
 
