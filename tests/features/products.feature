@@ -97,14 +97,14 @@ Feature: Products
         And The product should not be updated in database
 
     Scenario: Update a Product - missing required fields
-        Given I have a valid user
+        Given I am a staff user
         And I have a valid token
         And I have a product with id "666"
         And Product has required fields
         And I have product data without required fields to update an instance
         When I make a "PUT" request to "/products/666" endpoint with request data using "token" auth
-        Then I should get a status 403
-        And I should get a default forbidden message
+        Then I should get a status 400
+        And I should get an error with the required fields and their messages
         And The product should not be updated in database
 
     ### Delete
@@ -144,3 +144,28 @@ Feature: Products
         Then I should get a status 403
         And I should get a "Cannot delete active product." message
         And The product with id "666" should exists
+
+    ### List
+    Scenario: List products - success
+        Given I am a staff user
+        And I have a valid token
+        And I have some products
+        When I make a "GET" request to "/products" endpoint with request data using "token" auth
+        Then I should get a status 200
+        And I should get the list of products in the response
+
+    Scenario: List products - user not authenticated
+        Given I am a staff user
+        And I have a valid token
+        And I have some products
+        When I make a "GET" request to "/products" endpoint with request data using "no" auth
+        Then I should get a status 401
+        And I should get an unauthorized error
+
+    Scenario: List products - user not staff
+        Given I have a valid user
+        And I have a valid token
+        And I have some products
+        When I make a "GET" request to "/products" endpoint with request data using "token" auth
+        Then I should get a status 403
+        And I should get a default forbidden message

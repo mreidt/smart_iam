@@ -99,3 +99,49 @@ def step_then_do_not_exist_product_with_id(context, id):
 @then('The product with id "{id}" should exists')
 def step_then_product_with_id_should_exists(context, id):
     context.test.assertTrue(Products.objects.filter(id=int(id)).exists())
+
+
+@given(u'I have some products')
+def step_have_some_products(context):
+    for product in range (5):
+        Products.objects.create(name=f"product_{product}")
+    context.list_of_products = list(Products.objects.values())
+
+
+@then(u'I should get the list of products in the response')
+def step_should_get_list_products_response(context):
+    response_data = context.response.json()
+    expected_data = context.list_of_products
+    context.test.assertEqual(len(expected_data), len(response_data))
+    for expected_product, response_product in zip(expected_data, response_data):
+        expected_product.pop("created_at")
+        expected_product.pop("last_modified")
+        response_product.pop("created_at")
+        response_product.pop("last_modified")
+        context.test.assertEqual(expected_product, response_product)
+
+
+@then("I should get the partial updated product data in the response")
+def step_then_should_get_partial_updated_data_in_response(context):
+    expected_response_data = {
+        **context.request_data,
+        "is_deleted": False,
+        "id": int(context.product.id),
+        "description": None,
+    }
+    response_data = context.response.json()
+    response_data.pop("created_at")
+    response_data.pop("last_modified")
+    context.test.assertDictEqual(response_data, expected_response_data)
+
+
+@then("I should get the updated product data in the response")
+def step_then_should_get_updated_data_in_response(context):
+    expected_response_data = {
+        **context.request_data,
+        "id": int(context.product.id),
+    }
+    response_data = context.response.json()
+    response_data.pop("created_at")
+    response_data.pop("last_modified")
+    context.test.assertDictEqual(response_data, expected_response_data)
