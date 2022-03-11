@@ -16,4 +16,4 @@ class Permissions(models.Model):
         verbose_name_plural = "Permissions"
 
     def __str__(self) -> str:
-        return f"{self.name}/{self.product.name}"
+        return f"{self.product.name}/{self.name}"
