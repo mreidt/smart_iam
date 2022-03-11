@@ -1,3 +1,4 @@
-from tests.features.steps.products import products  # noqa
-from tests.features.steps.requests import request, response  # noqa
-from tests.features.steps.user import authentication  # noqa
+from tests.features.steps.products import *  # noqa
+from tests.features.steps.requests import *  # noqa
+from tests.features.steps.user import *  # noqa
+from tests.features.steps.permissions import * # noqa
