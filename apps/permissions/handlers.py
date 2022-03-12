@@ -1,4 +1,4 @@
-from rest_framework import exceptions
+from rest_framework.exceptions import PermissionDenied
 
 from apps.permissions.repositories import permissions_repository
 
@@ -8,7 +8,7 @@ class PermissionsHandlers(object):
         permission = permissions_repository.get_permission_by_id(permission_id)
 
         if permission.is_active:
-            raise exceptions.PermissionDenied("Cannot delete active permission.")
+            raise PermissionDenied("Cannot delete active permission.")
 
         permissions_repository.delete(permission)
 
