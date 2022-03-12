@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
 
 from apps.account.models import AccountProducts, IAMAccount
 from apps.account.repositories import account_repository
@@ -32,7 +33,7 @@ class AccountViewSet(BaseViewSet):
         return super().destroy(request, account)
 
 
-class AccountProductsViewSet(BaseViewSet):
+class AccountProductsViewSet(GenericViewSet):
     permission_classes = [IsAdminUser]
     queryset = AccountProducts.objects.all()
     serializer_class = AccountProductsSerializer
@@ -47,12 +48,14 @@ class AccountProductsViewSet(BaseViewSet):
 
     def retrieve(self, request: Request, id: int) -> Response:
         account_product = AccountProducts.objects.get(id=id)
-        return super().retrieve(request, account_product)
+        serializer = self.serializer_class(account_product)
+        return Response(data=serializer.data)
 
-    def update(self, request: Request, partial: bool = False) -> Response:
+    def destroy(self, request: Request, id: int) -> Response:
         account_product = AccountProducts.objects.get(id=id)
-        return super().update(request, account_product, partial)
+        account_product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def destroy(self, request: Request, id) -> Response:
-        account_product = AccountProducts.objects.get(id=id)
-        return super().destroy(request, account_product)
+    def list(self, request: Request) -> Response:
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(serializer.data)
