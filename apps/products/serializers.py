@@ -28,5 +28,5 @@ class ProductCreateSerializer(ProductSerializer):
     """Serializer for create products"""
 
     def create(self, validated_data):
-        """Create a new product with encrypted password and return it"""
+        """Create a new product with and return it"""
         return Products.objects.create(**validated_data)
