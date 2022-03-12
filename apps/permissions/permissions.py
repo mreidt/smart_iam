@@ -56,7 +56,7 @@ class UserHasProductPermissions(IsAuthenticated):
 
         user_id = request.user.id
         user_permissions = set(
-            user_permission_repository.get_user_permissions_by_id(user_id)
+            user_permission_repository.get_user_permissions_by_user_id(user_id)
         )
         required_permissions = set(view.user_permissions)
         has_permission = required_permissions.issubset(user_permissions)
