@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "apps.user",
     "apps.account",
     "apps.permissions",
     "apps.products",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "user.CustomUser"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "../static")
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ]
+}

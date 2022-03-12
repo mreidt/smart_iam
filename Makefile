@@ -66,12 +66,14 @@ lint: ## runs linters over the code
 .PHONY: test
 test: ## runs tests
 ifeq ($(ARGS), unit)
-	# @ $(EXEC) coverage run --rcfile=.coveragerc_unit manage.py test
-	@ $(EXEC) python manage.py test
+	@ $(EXEC) coverage run --rcfile=.coveragerc_unit manage.py test
 	@ make coverage
 else ifeq ($(ARGS), integration)
-	# @ $(EXEC) coverage run --rcfile=.coveragerc_integration manage.py behave --no-capture
+	@ $(EXEC) coverage run --rcfile=.coveragerc_integration manage.py behave --no-capture
 	@ make coverage
+else
+	make test integration
+	make test unit
 endif
 
 
