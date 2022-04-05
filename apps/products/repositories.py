@@ -10,5 +10,8 @@ class ProductsRepository:
     def delete(self, product: models.Products) -> None:
         product.delete()
 
+    def get_product_by_name(self, name: str) -> models.Products:
+        return self.model.objects.get(name=name)
 
+      
 products_repository = ProductsRepository()

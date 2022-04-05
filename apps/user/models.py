@@ -12,7 +12,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
-    admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -29,10 +28,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class UserAccount(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     account = models.ForeignKey(IAMAccount, on_delete=models.CASCADE)
+    admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.email}/{self.account.email}"
 
 
 class UserPermissions(models.Model):
@@ -42,3 +45,6 @@ class UserPermissions(models.Model):
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.email} - {self.permission}"
