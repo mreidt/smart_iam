@@ -21,3 +21,6 @@ class AccountProducts(models.Model):
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.account}/{self.product}"
