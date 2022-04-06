@@ -13,5 +13,5 @@ class ProductsRepository:
     def get_product_by_name(self, name: str) -> models.Products:
         return self.model.objects.get(name=name)
 
-      
+
 products_repository = ProductsRepository()
