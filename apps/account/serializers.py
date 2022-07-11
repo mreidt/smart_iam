@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from apps.account.models import AccountProducts, IAMAccount
 from apps.products.models import Products
@@ -69,3 +69,10 @@ class AccountProductsCreateSerializer(serializers.ModelSerializer):
             "last_modified",
         ]
         read_only_fields = ["id", "created_at", "last_modified"]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=model.objects.all(),
+                fields=("account", "product"),
+                message="This account already has this product.",
+            )
+        ]

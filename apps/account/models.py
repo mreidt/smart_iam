@@ -24,3 +24,10 @@ class AccountProducts(models.Model):
 
     def __str__(self) -> str:
         return f"{self.account}/{self.product}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["account", "product"], name="unique_product_per_account"
+            )
+        ]
