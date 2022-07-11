@@ -94,8 +94,11 @@ def step_then_should_get_details_of_account_product_response(context):
 def step_given_have_some_account_products(context):
     context.account = IAMAccount.objects.create(email="randommail@email.com")
     context.product = Products.objects.create(name="random_product")
-    for _ in range(5):
-        AccountProducts.objects.create(account=context.account, product=context.product)
+    context.product2 = Products.objects.create(name="random_product2")
+    context.product3 = Products.objects.create(name="random_product3")
+    AccountProducts.objects.create(account=context.account, product=context.product)
+    AccountProducts.objects.create(account=context.account, product=context.product2)
+    AccountProducts.objects.create(account=context.account, product=context.product3)
     context.list_of_account_products = list(AccountProducts.objects.values())
 
 

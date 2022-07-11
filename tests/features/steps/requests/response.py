@@ -36,3 +36,9 @@ def step_then_should_get_unauthorized_error(context):
 def step_then_should_get_message(context, expected_message):
     expected_message = {"detail": expected_message}
     context.test.assertEqual(context.response.json(), expected_message)
+
+
+@then('I should get a non-field error "{expected_message}" message')
+def step_then_should_get_non_field_message(context, expected_message):
+    expected_message = {"non_field_errors": [expected_message]}
+    context.test.assertEqual(context.response.json(), expected_message)

@@ -1,3 +1,4 @@
+from django.db.backends.sqlite3.base import IntegrityError
 from django.test import TestCase
 
 from apps.account.models import AccountProducts, IAMAccount
@@ -23,3 +24,9 @@ class TestCustomUserModel(TestCase):
         )
         self.assertEqual(self.product, account_product.product)
         self.assertEqual(self.account, account_product.account)
+
+    def test_create_account_ensure_unique_constrinat_product(self):
+        AccountProducts.objects.create(account=self.account, product=self.product)
+
+        with self.assertRaises(IntegrityError):
+            AccountProducts.objects.create(account=self.account, product=self.product)

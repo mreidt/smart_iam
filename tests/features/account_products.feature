@@ -41,6 +41,20 @@ Feature: Account Products
         Then I should get a status 403
         And I should get a default forbidden message
         And No account_product must be created in database
+    
+    Scenario: Create an AccountProduct - same product multiple times in account
+        Given I am a staff user
+        And I have a valid token
+        And I have an account with id "666"
+        And I have a product with id "666"
+        And I have valid account_product data to create an instance
+        When I make a "POST" request to "/account-products" endpoint with request data using "token" auth
+        Then I should get a status 201
+        And I should get the created account_product data in the response
+        And I should have the new account_product created with provided data in database
+        When I make a "POST" request to "/account-products" endpoint with request data using "token" auth
+        Then I should get a status 400
+        And I should get a non-field error "This account already has this product." message
 
     ### Delete
     Scenario: Delete an AccountProduct - success
